@@ -11,6 +11,12 @@
 |
 */
 
-Route::any('/', 'Controller@index')->name('index');
-Route::any('/site/{id}', 'Controller@pages')->name('site');
-Route::post('/add', 'Controller@addSite')->name('addSite');
+Route::group(['middleware' => 'auth'], function () {
+    Route::any('/', 'IndexController@index')->name('index');
+    Route::any('/site/{id}', 'IndexController@pages')->name('site');
+    Route::post('/add', 'IndexController@addSite')->name('addSite');
+});
+
+Auth::routes(['register' => false]);
+
+//Route::get('/home', 'HomeController@index')->name('home');
