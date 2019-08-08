@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{csrf_token()}}">
         <title>Analysis</title>
         <link rel="stylesheet" href="/css/fontawesome.min.css"/>
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
@@ -42,7 +42,8 @@
                     <th scope="col"> Середный час відповіді</th>
                     <th scope="col">Cтатус провірки</th>
                     <th scope="col">Остання перевірка</th>
-                    <th scope="col"></th>
+                    <th scope="col">Видалити</th>
+                    <th scope="col">Сканувати</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,6 +56,7 @@
                         <td>{{$site->status}}</td>
                         <td>{{$mytime}}</td>
                         <td> <a type="button" class="btn btn-secondary" style="-webkit-appearance: none;"><i class="fas fa-edit" style="color: white"></i></a></td>
+                        <td> <a type="button" onclick="scanSite({{$site->id}})" class="btn btn-secondary" style="-webkit-appearance: none;"><i class="fas fa-edit" style="color: white"></i></a></td>
                     </tr>
                 @endforeach
 
@@ -104,10 +106,26 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/js/bootstrap4-toggle.min.js"></script>
     </body>
+    <script>
+        function scanSite(id) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/scan/' + id,
+                dataType: 'json',
+                type: 'post',
+                success: function (response) {
+                    if (response.success === true) {
+                        console.log(response)
+                    }
+                }
+            });
+        }
+    </script>
 </html>

@@ -18,7 +18,7 @@ class Analytics extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:build {--url=} {--csvfile=}';
+    protected $signature = 'parse:build {--url=} {--csvfile=} {--id=}';
 
     /**
      * The console command description.
@@ -50,10 +50,11 @@ class Analytics extends Command
         $agent ='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36';
         $config = '/tmp/cookies.txt';
 
-        $url=$this->option('url');
-        $url=$normalQuery = Sites::where('status', 'on')->get();
+        $url = $this->option('url');
+        $id = $this->option('id');
+        $urls = $id ? Sites::where('id', $id)->get() : Sites::where('status', 'on')->get();
 //        dispatch(new ConvertDocument($url))->onQueue('convert');
-        foreach ($url as $item) {
+        foreach ($urls as $item) {
             $get_url=$item->domain."sitemap.xml";
             $site_id=$item->id;
 //            dd($site_id);

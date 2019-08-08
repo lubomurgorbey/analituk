@@ -7,6 +7,7 @@ use App\Models\Pages;
 use App\Models\Sites;
 use Illuminate\Pagination\{Paginator, LengthAwarePaginator};
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
 class IndexController extends Controller
 {
@@ -57,21 +58,22 @@ class IndexController extends Controller
         return redirect('/');
 //        return response()->json(['status' => true]);
     }
-       public function pages(Request $request, $id)
-       {
+
+    public function pages(Request $request, $id)
+    {
         $request->flash();
 //        dd($id);
-        $site_id=$id;
+        $site_id = $id;
 //        dd($site_id);
-        $search=$request->input('search');
+        $search = $request->input('search');
 //        $normalQuery = Pages::orderBy('created_at','DESC')->where('site_id',  "1");
         $normalQuery = Pages::where('site_id', $site_id);
-           if(!empty($search)){
-               $normalQuery->where(function ($query) use ($search) {
-                   $query->where('http_code','like',"$search%")
-                       ->orWhere('domain','like',"$search%");
-               });
-           }
+        if (!empty($search)) {
+            $normalQuery->where(function ($query) use ($search) {
+                $query->where('http_code', 'like', "$search%")
+                    ->orWhere('domain', 'like', "$search%");
+            });
+        }
 
         $page = $request->input('page', 1);
         $limit = 12;
@@ -80,7 +82,15 @@ class IndexController extends Controller
         $sites = $normalQuery->offset($limit * ($page - 1))->limit($limit)->get();
 //        dd($sites);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $pagination = new LengthAwarePaginator($sites, $countAll, $limit, $page,['path'=>'']);
-        return view('pages', compact('sites', 'pagination','mytime','site_id'));
-       }
+        $pagination = new LengthAwarePaginator($sites, $countAll, $limit, $page, ['path' => '']);
+        return view('pages', compact('sites', 'pagination', 'mytime', 'site_id'));
+    }
+
+    public function scanSite(Request $request, $id)
+    {
+        $site = Sites::findOrFail($id);
+        Artisan::call('parse:build', ['--id' => $site->id]);
+
+        return response()->json(['success' => true]);
+    }
 }
