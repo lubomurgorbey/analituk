@@ -76,12 +76,12 @@ class Analytics extends Command
 //                dd('tect',$contents);
                 preg_match_all("/ <loc>(.*?)</",   $contents, $tes);
 //                $xml_content = simplexml_load_file($test);
-//                dd( $tes[1]);
-//                foreach (  $tes[1] as $item) {
+                var_dump( $tes[1]);
+                foreach (  $tes[1] as $item) {
 //////                    $xml_url = $item->loc[0]->__toString();
 //////                    dd($item);
 //////                    $xml_url='https://instructions-and-manuals.com/77633-winco-ulpss20b4wa';
-//                    $this->saveAnalysis($item ,$site_id);
+                    $this->saveAnalysis($item ,$site_id);
 //////                    dispatch(new ProcessPodcast($xml_url,$site_id))->onQueue('analytics');
 //////                dd($xml_url);
 //////                $xml_url="http://instructions-and-manuals.com/10042-kawai-r-50-manual?page=58";
@@ -146,7 +146,7 @@ class Analytics extends Command
 ////                    //
 ////
 //                }
-//            }
+            }
         }
     }
     protected  function saveAnalysis($url,$site_id){
