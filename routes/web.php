@@ -16,6 +16,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/site/{id}', 'IndexController@pages')->name('site');
     Route::post('/add', 'IndexController@addSite')->name('addSite');
     Route::post('/scan/{id}', 'IndexController@scanSite')->name('scanSite');
+    Route::post('/delete/{id}', 'IndexController@deleteSite')->name('deleteSite');
 });
 
 Auth::routes(['register' => false]);

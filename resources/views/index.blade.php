@@ -55,8 +55,8 @@
                         <td>{{$site->avg_time}}</td>
                         <td>{{$site->status}}</td>
                         <td>{{$mytime}}</td>
-                        <td> <a type="button" class="btn btn-secondary" style="-webkit-appearance: none;"><i class="fas fa-edit" style="color: white"></i></a></td>
-                        <td> <a type="button" onclick="scanSite({{$site->id}})" class="btn btn-secondary" style="-webkit-appearance: none;"><i class="fas fa-edit" style="color: white"></i></a></td>
+                        <td> <a type="button" onclick="deleteSite({{$site->id}})" class="btn btn-secondary site-id-{{$site->id}}" data-content='{{$site->id}}' style="-webkit-appearance: none;"><i class="fas fa-edit" style="color: white"></i></a></td>
+                        <td> <a type="button" onclick="scanSite({{$site->id}})" class="btn btn-secondary" style="-webkit-appearance: none;"><i class="fas fa-play" style="color: white"></i></a></td>
                     </tr>
                 @endforeach
 
@@ -81,13 +81,13 @@
                     {{ csrf_field() }}
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
-                        <i class="fas fa-user prefix grey-text"></i>
+                        <i class="fas fa-align-center"></i>
                         <input type="text" name="site_name" class="form-control validate" required>
                         <label data-error="wrong" data-success="right" for="form34">Назва сайту</label>
                     </div>
 
                     <div class="md-form mb-5">
-                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <i class="fas fa-network-wired"></i>
                         <input type="url" id="form29" name="domain" class="form-control validate" required>
                         <label data-error="wrong"  data-success="right" for="form29">Домен</label>
                     </div>
@@ -112,6 +112,22 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/js/bootstrap4-toggle.min.js"></script>
     </body>
     <script>
+        function deleteSite(id) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/delete/' + id,
+                dataType: 'json',
+                type: 'post',
+                success: function (response) {
+                    if (response.success === true) {
+                     var siteClass=".site-id-"+id;
+                        $(siteClass).parents('tr').remove();
+                    }
+                }
+            });
+        }
         function scanSite(id) {
             $.ajax({
                 headers: {
@@ -121,7 +137,7 @@
                 dataType: 'json',
                 type: 'post',
                 success: function (response) {
-                    if (response.success === true) {
+                    if (response.success === success) {
                         console.log(response)
                     }
                 }
