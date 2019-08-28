@@ -76,7 +76,7 @@ class Analytics extends Command
 //                dd('tect',$contents);
                 preg_match_all("/ <loc>(.*?)</",   $contents, $tes);
 //                $xml_content = simplexml_load_file($test);
-                var_dump( $tes[1]);
+//                var_dump( $tes[1]);
                 foreach (  $tes[1] as $item) {
 //////                    $xml_url = $item->loc[0]->__toString();
 //////                    dd($item);
