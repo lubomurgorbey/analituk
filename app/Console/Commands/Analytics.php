@@ -66,6 +66,7 @@ class Analytics extends Command
                 $xml_list = $item->loc[0]->__toString();
 //                $xml_list='https://instructions-and-manuals.com/sitemaps/sitemap_2.xml';
 //                dd($xml_list);
+                echo $site_id;
                 dispatch(new ProcessPodcast($xml_list ,$site_id))->onQueue('analytics');
 //                $test=gzopen($xml_list,'r');
 //                dd($test);
