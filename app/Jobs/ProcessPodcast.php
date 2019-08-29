@@ -89,7 +89,7 @@ class ProcessPodcast implements ShouldQueue
         $url_list=$info["url"];
         curl_close($ch2);
         var_dump($url_list);
-        var_dump($url);
+//        var_dump($url);
         $time = Carbon::now();
         $pages = Pages::updateOrCreate(
             [
