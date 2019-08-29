@@ -35,40 +35,15 @@ class ProcessPodcast implements ShouldQueue
     public function handle()
     {
 
-        $agent ='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36';
-        $config = '/tmp/cookies.txt';
-        $gzip_content=gzopen($this->url,'r');
-        $contents = gzread($gzip_content, 125257900);
-        preg_match_all("/ <loc>(.*?)</",   $contents,  $xml_content );
-//        $xml_content = simplexml_load_file($this->url);
-//        dd($xml_content);
-        foreach ($xml_content[1] as $item) {
-//            $xml_url = $item->loc[0]->__toString();
-//            dd($xml_url);
-//                    $xml_url='https://instructions-and-manuals.com/77633-winco-ulpss20b4wa';
-            $this->saveAnalysis($item ,$this->site_id);
-//                    dispatch(new ProcessPodcast($xml_url,$site_id))->onQueue('analytics');
-//                dd($xml_url);
-//                $xml_url="http://instructions-and-manuals.com/10042-kawai-r-50-manual?page=58";
-//                    $test = "/<a href=\"(.*?)\"\s*class=\"page-link/";
-//                dd($test);
-//                    $pagination = $this->getPagination($xml_url, $test);
-//                    dd($pagination);
-//                    dd($pagination);
-//            $ch = curl_init($xml_url);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//            curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-//            curl_setopt($ch, CURLOPT_COOKIEJAR, $config);
-//            curl_setopt($ch, CURLOPT_COOKIEFILE, $config);
-//            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-//            $mas_html = curl_exec($ch);
-//            $info = curl_getinfo($ch);
-//            preg_match_all("/rel=\"amphtml\"\s*\S*href=\"(.*?)\"/", $mas_html, $get_url);
-//            $get_url_amp=(isset($get_url[1][0])?$get_url[1][0]:false);
-//            if ($get_url_amp != false) {
-//                $this->saveAnalysis($get_url_amp ,$this->site_id);
+//        $agent ='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36';
+//        $config = '/tmp/cookies.txt';
+//        $gzip_content=gzopen($this->url,'r');
+//        $contents = gzread($gzip_content, 125257900);
+//        preg_match_all("/ <loc>(.*?)</",   $contents,  $xml_content );
+
+            $this->saveAnalysis($this->url ,$this->site_id);
 //            }
-        }
+
 
 
     }
